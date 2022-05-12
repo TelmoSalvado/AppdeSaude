@@ -1,0 +1,979 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AppSaudeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="alimentos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Calorias" Type="float" Nullable="false" />
+          <Property Name="Imagem" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Quantidade" Type="float" Nullable="false" />
+          <Property Name="utilizador_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="analises">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Data" Type="date" Nullable="false" />
+          <Property Name="Hora" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Glicemia" Type="float" />
+          <Property Name="Ureia" Type="float" />
+          <Property Name="Tensao" Type="float" />
+          <Property Name="utilizador_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="atividadefisica">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Data" Type="datetime" Nullable="false" />
+          <Property Name="CaloriasQueimadas" Type="float" Nullable="false" />
+          <Property Name="Nrdepassos" Type="int" />
+          <Property Name="utilizador_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="clinica">
+          <Key>
+            <PropertyRef Name="clinica_id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="clinica_id" Type="int" Nullable="false" />
+          <Property Name="localidade_localidade_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="consulta">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="utilizador_id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Data" Type="date" Nullable="false" />
+          <Property Name="Hora" Type="time" Precision="7" Nullable="false" />
+          <Property Name="medico_id" Type="int" Nullable="false" />
+          <Property Name="medico_nrutente" Type="int" Nullable="false" />
+          <Property Name="utilizador_id" Type="int" Nullable="false" />
+          <Property Name="Relatorio" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="localidade">
+          <Key>
+            <PropertyRef Name="localidade_id" />
+          </Key>
+          <Property Name="localidade_id" Type="int" Nullable="false" />
+          <Property Name="Cidade" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Distrito" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="medicacao">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Datadeinicio" Type="datetime" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="250" />
+          <Property Name="Tempo" Type="time" Precision="7" />
+          <Property Name="Duracao" Type="date" />
+          <Property Name="Motivo" Type="varchar" MaxLength="250" />
+          <Property Name="utilizador_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="medico">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Nrutente" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Nrutente" Type="int" Nullable="false" />
+          <Property Name="Contacto" Type="int" Nullable="false" />
+          <Property Name="Nrdemedico" Type="int" Nullable="false" />
+          <Property Name="Datadenascimento" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="parametrosimc">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Valormin" Type="float" />
+          <Property Name="Valormax" Type="float" Nullable="false" />
+          <Property Name="Tipo" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="perguntas">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Pergunta" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="registos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Peso" Type="float" Nullable="false" />
+          <Property Name="Altura" Type="float" Nullable="false" />
+          <Property Name="Data" Type="datetime" Nullable="false" />
+          <Property Name="utilizador_id" Type="int" Nullable="false" />
+          <Property Name="parametrosimc_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="relation_11">
+          <Key>
+            <PropertyRef Name="médico_id" />
+            <PropertyRef Name="médico_nrutente" />
+            <PropertyRef Name="clinica_clinica_id" />
+          </Key>
+          <Property Name="médico_id" Type="int" Nullable="false" />
+          <Property Name="médico_nrutente" Type="int" Nullable="false" />
+          <Property Name="clinica_clinica_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="respostas">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Resposta" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="perguntas_id" Type="int" Nullable="false" />
+          <Property Name="parametrosimc_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="utilizador">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Contacto" Type="int" Nullable="false" />
+          <Property Name="Nrutente" Type="int" Nullable="false" />
+          <Property Name="Datadenascimento" Type="date" Nullable="false" />
+          <Property Name="Genero" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Altura" Type="float" Nullable="false" />
+          <Property Name="Peso" Type="float" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="localidade_localidade_id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="alimentos_utilizador_fk">
+          <End Role="utilizador" Type="Self.utilizador" Multiplicity="1" />
+          <End Role="alimentos" Type="Self.alimentos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilizador">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="alimentos">
+              <PropertyRef Name="utilizador_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="analises_utilizador_fk">
+          <End Role="utilizador" Type="Self.utilizador" Multiplicity="1" />
+          <End Role="analises" Type="Self.analises" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilizador">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="analises">
+              <PropertyRef Name="utilizador_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="atividadefisica_utilizador_fk">
+          <End Role="utilizador" Type="Self.utilizador" Multiplicity="1" />
+          <End Role="atividadefisica" Type="Self.atividadefisica" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilizador">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="atividadefisica">
+              <PropertyRef Name="utilizador_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="clinica_localidade_fk">
+          <End Role="localidade" Type="Self.localidade" Multiplicity="1" />
+          <End Role="clinica" Type="Self.clinica" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="localidade">
+              <PropertyRef Name="localidade_id" />
+            </Principal>
+            <Dependent Role="clinica">
+              <PropertyRef Name="localidade_localidade_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="consulta_medico_fk">
+          <End Role="medico" Type="Self.medico" Multiplicity="1" />
+          <End Role="consulta" Type="Self.consulta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medico">
+              <PropertyRef Name="id" />
+              <PropertyRef Name="Nrutente" />
+            </Principal>
+            <Dependent Role="consulta">
+              <PropertyRef Name="medico_id" />
+              <PropertyRef Name="medico_nrutente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="consulta_utilizador_fk">
+          <End Role="utilizador" Type="Self.utilizador" Multiplicity="1" />
+          <End Role="consulta" Type="Self.consulta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilizador">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="consulta">
+              <PropertyRef Name="utilizador_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="medicacao_utilizador_fk">
+          <End Role="utilizador" Type="Self.utilizador" Multiplicity="1" />
+          <End Role="medicacao" Type="Self.medicacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilizador">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="medicacao">
+              <PropertyRef Name="utilizador_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="registos_parametrosimc_fk">
+          <End Role="parametrosimc" Type="Self.parametrosimc" Multiplicity="1" />
+          <End Role="registos" Type="Self.registos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="parametrosimc">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="registos">
+              <PropertyRef Name="parametrosimc_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="registos_utilizador_fk">
+          <End Role="utilizador" Type="Self.utilizador" Multiplicity="1" />
+          <End Role="registos" Type="Self.registos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilizador">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="registos">
+              <PropertyRef Name="utilizador_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="relation_11_clinica_fk">
+          <End Role="clinica" Type="Self.clinica" Multiplicity="1" />
+          <End Role="relation_11" Type="Self.relation_11" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="clinica">
+              <PropertyRef Name="clinica_id" />
+            </Principal>
+            <Dependent Role="relation_11">
+              <PropertyRef Name="clinica_clinica_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="relation_11_médico_fk">
+          <End Role="medico" Type="Self.medico" Multiplicity="1" />
+          <End Role="relation_11" Type="Self.relation_11" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medico">
+              <PropertyRef Name="id" />
+              <PropertyRef Name="Nrutente" />
+            </Principal>
+            <Dependent Role="relation_11">
+              <PropertyRef Name="médico_id" />
+              <PropertyRef Name="médico_nrutente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="respostas_parametrosimc_fk">
+          <End Role="parametrosimc" Type="Self.parametrosimc" Multiplicity="1" />
+          <End Role="respostas" Type="Self.respostas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="parametrosimc">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="respostas">
+              <PropertyRef Name="parametrosimc_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="respostas_perguntas_fk">
+          <End Role="perguntas" Type="Self.perguntas" Multiplicity="1" />
+          <End Role="respostas" Type="Self.respostas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="perguntas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="respostas">
+              <PropertyRef Name="perguntas_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="utilizador_localidade_fk">
+          <End Role="localidade" Type="Self.localidade" Multiplicity="1" />
+          <End Role="utilizador" Type="Self.utilizador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="localidade">
+              <PropertyRef Name="localidade_id" />
+            </Principal>
+            <Dependent Role="utilizador">
+              <PropertyRef Name="localidade_localidade_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AppSaudeModelStoreContainer">
+          <EntitySet Name="alimentos" EntityType="Self.alimentos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="analises" EntityType="Self.analises" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="atividadefisica" EntityType="Self.atividadefisica" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="clinica" EntityType="Self.clinica" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="consulta" EntityType="Self.consulta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="localidade" EntityType="Self.localidade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="medicacao" EntityType="Self.medicacao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="medico" EntityType="Self.medico" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="parametrosimc" EntityType="Self.parametrosimc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="perguntas" EntityType="Self.perguntas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="registos" EntityType="Self.registos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="relation_11" EntityType="Self.relation_11" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="respostas" EntityType="Self.respostas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="utilizador" EntityType="Self.utilizador" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="alimentos_utilizador_fk" Association="Self.alimentos_utilizador_fk">
+            <End Role="utilizador" EntitySet="utilizador" />
+            <End Role="alimentos" EntitySet="alimentos" />
+          </AssociationSet>
+          <AssociationSet Name="analises_utilizador_fk" Association="Self.analises_utilizador_fk">
+            <End Role="utilizador" EntitySet="utilizador" />
+            <End Role="analises" EntitySet="analises" />
+          </AssociationSet>
+          <AssociationSet Name="atividadefisica_utilizador_fk" Association="Self.atividadefisica_utilizador_fk">
+            <End Role="utilizador" EntitySet="utilizador" />
+            <End Role="atividadefisica" EntitySet="atividadefisica" />
+          </AssociationSet>
+          <AssociationSet Name="clinica_localidade_fk" Association="Self.clinica_localidade_fk">
+            <End Role="localidade" EntitySet="localidade" />
+            <End Role="clinica" EntitySet="clinica" />
+          </AssociationSet>
+          <AssociationSet Name="consulta_medico_fk" Association="Self.consulta_medico_fk">
+            <End Role="medico" EntitySet="medico" />
+            <End Role="consulta" EntitySet="consulta" />
+          </AssociationSet>
+          <AssociationSet Name="consulta_utilizador_fk" Association="Self.consulta_utilizador_fk">
+            <End Role="utilizador" EntitySet="utilizador" />
+            <End Role="consulta" EntitySet="consulta" />
+          </AssociationSet>
+          <AssociationSet Name="medicacao_utilizador_fk" Association="Self.medicacao_utilizador_fk">
+            <End Role="utilizador" EntitySet="utilizador" />
+            <End Role="medicacao" EntitySet="medicacao" />
+          </AssociationSet>
+          <AssociationSet Name="registos_parametrosimc_fk" Association="Self.registos_parametrosimc_fk">
+            <End Role="parametrosimc" EntitySet="parametrosimc" />
+            <End Role="registos" EntitySet="registos" />
+          </AssociationSet>
+          <AssociationSet Name="registos_utilizador_fk" Association="Self.registos_utilizador_fk">
+            <End Role="utilizador" EntitySet="utilizador" />
+            <End Role="registos" EntitySet="registos" />
+          </AssociationSet>
+          <AssociationSet Name="relation_11_clinica_fk" Association="Self.relation_11_clinica_fk">
+            <End Role="clinica" EntitySet="clinica" />
+            <End Role="relation_11" EntitySet="relation_11" />
+          </AssociationSet>
+          <AssociationSet Name="relation_11_médico_fk" Association="Self.relation_11_médico_fk">
+            <End Role="medico" EntitySet="medico" />
+            <End Role="relation_11" EntitySet="relation_11" />
+          </AssociationSet>
+          <AssociationSet Name="respostas_parametrosimc_fk" Association="Self.respostas_parametrosimc_fk">
+            <End Role="parametrosimc" EntitySet="parametrosimc" />
+            <End Role="respostas" EntitySet="respostas" />
+          </AssociationSet>
+          <AssociationSet Name="respostas_perguntas_fk" Association="Self.respostas_perguntas_fk">
+            <End Role="perguntas" EntitySet="perguntas" />
+            <End Role="respostas" EntitySet="respostas" />
+          </AssociationSet>
+          <AssociationSet Name="utilizador_localidade_fk" Association="Self.utilizador_localidade_fk">
+            <End Role="localidade" EntitySet="localidade" />
+            <End Role="utilizador" EntitySet="utilizador" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AppSaudeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="alimentos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Calorias" Type="Double" Nullable="false" />
+          <Property Name="Imagem" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Quantidade" Type="Double" Nullable="false" />
+          <Property Name="utilizador_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="utilizador" Relationship="Self.alimentos_utilizador_fk" FromRole="alimentos" ToRole="utilizador" />
+        </EntityType>
+        <EntityType Name="analises">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Hora" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Glicemia" Type="Double" />
+          <Property Name="Ureia" Type="Double" />
+          <Property Name="Tensao" Type="Double" />
+          <Property Name="utilizador_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="utilizador" Relationship="Self.analises_utilizador_fk" FromRole="analises" ToRole="utilizador" />
+        </EntityType>
+        <EntityType Name="atividadefisica">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CaloriasQueimadas" Type="Double" Nullable="false" />
+          <Property Name="Nrdepassos" Type="Int32" />
+          <Property Name="utilizador_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="utilizador" Relationship="Self.atividadefisica_utilizador_fk" FromRole="atividadefisica" ToRole="utilizador" />
+        </EntityType>
+        <EntityType Name="clinica">
+          <Key>
+            <PropertyRef Name="clinica_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="clinica_id" Type="Int32" Nullable="false" />
+          <Property Name="localidade_localidade_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="localidade" Relationship="Self.clinica_localidade_fk" FromRole="clinica" ToRole="localidade" />
+          <NavigationProperty Name="medico" Relationship="Self.relation_11" FromRole="clinica" ToRole="medico" />
+        </EntityType>
+        <EntityType Name="consulta">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="utilizador_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Hora" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="medico_id" Type="Int32" Nullable="false" />
+          <Property Name="medico_nrutente" Type="Int32" Nullable="false" />
+          <Property Name="utilizador_id" Type="Int32" Nullable="false" />
+          <Property Name="Relatorio" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="medico" Relationship="Self.consulta_medico_fk" FromRole="consulta" ToRole="medico" />
+          <NavigationProperty Name="utilizador" Relationship="Self.consulta_utilizador_fk" FromRole="consulta" ToRole="utilizador" />
+        </EntityType>
+        <EntityType Name="localidade">
+          <Key>
+            <PropertyRef Name="localidade_id" />
+          </Key>
+          <Property Name="localidade_id" Type="Int32" Nullable="false" />
+          <Property Name="Cidade" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Distrito" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="clinica" Relationship="Self.clinica_localidade_fk" FromRole="localidade" ToRole="clinica" />
+          <NavigationProperty Name="utilizador" Relationship="Self.utilizador_localidade_fk" FromRole="localidade" ToRole="utilizador" />
+        </EntityType>
+        <EntityType Name="medicacao">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Datadeinicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Nome" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Tempo" Type="Time" Precision="7" />
+          <Property Name="Duracao" Type="DateTime" Precision="0" />
+          <Property Name="Motivo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="utilizador_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="utilizador" Relationship="Self.medicacao_utilizador_fk" FromRole="medicacao" ToRole="utilizador" />
+        </EntityType>
+        <EntityType Name="medico">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Nrutente" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nrutente" Type="Int32" Nullable="false" />
+          <Property Name="Contacto" Type="Int32" Nullable="false" />
+          <Property Name="Nrdemedico" Type="Int32" Nullable="false" />
+          <Property Name="Datadenascimento" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="consulta" Relationship="Self.consulta_medico_fk" FromRole="medico" ToRole="consulta" />
+          <NavigationProperty Name="clinica" Relationship="Self.relation_11" FromRole="medico" ToRole="clinica" />
+        </EntityType>
+        <EntityType Name="parametrosimc">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Valormin" Type="Double" />
+          <Property Name="Valormax" Type="Double" Nullable="false" />
+          <Property Name="Tipo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="registos" Relationship="Self.registos_parametrosimc_fk" FromRole="parametrosimc" ToRole="registos" />
+          <NavigationProperty Name="respostas" Relationship="Self.respostas_parametrosimc_fk" FromRole="parametrosimc" ToRole="respostas" />
+        </EntityType>
+        <EntityType Name="perguntas">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Pergunta" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="respostas" Relationship="Self.respostas_perguntas_fk" FromRole="perguntas" ToRole="respostas" />
+        </EntityType>
+        <EntityType Name="registos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Peso" Type="Double" Nullable="false" />
+          <Property Name="Altura" Type="Double" Nullable="false" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="utilizador_id" Type="Int32" Nullable="false" />
+          <Property Name="parametrosimc_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="parametrosimc" Relationship="Self.registos_parametrosimc_fk" FromRole="registos" ToRole="parametrosimc" />
+          <NavigationProperty Name="utilizador" Relationship="Self.registos_utilizador_fk" FromRole="registos" ToRole="utilizador" />
+        </EntityType>
+        <EntityType Name="respostas">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Resposta" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="perguntas_id" Type="Int32" Nullable="false" />
+          <Property Name="parametrosimc_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="parametrosimc" Relationship="Self.respostas_parametrosimc_fk" FromRole="respostas" ToRole="parametrosimc" />
+          <NavigationProperty Name="perguntas" Relationship="Self.respostas_perguntas_fk" FromRole="respostas" ToRole="perguntas" />
+        </EntityType>
+        <EntityType Name="utilizador">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contacto" Type="Int32" Nullable="false" />
+          <Property Name="Nrutente" Type="Int32" Nullable="false" />
+          <Property Name="Datadenascimento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Genero" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Altura" Type="Double" Nullable="false" />
+          <Property Name="Peso" Type="Double" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="localidade_localidade_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="alimentos" Relationship="Self.alimentos_utilizador_fk" FromRole="utilizador" ToRole="alimentos" />
+          <NavigationProperty Name="analises" Relationship="Self.analises_utilizador_fk" FromRole="utilizador" ToRole="analises" />
+          <NavigationProperty Name="atividadefisica" Relationship="Self.atividadefisica_utilizador_fk" FromRole="utilizador" ToRole="atividadefisica" />
+          <NavigationProperty Name="consulta" Relationship="Self.consulta_utilizador_fk" FromRole="utilizador" ToRole="consulta" />
+          <NavigationProperty Name="localidade" Relationship="Self.utilizador_localidade_fk" FromRole="utilizador" ToRole="localidade" />
+          <NavigationProperty Name="medicacao" Relationship="Self.medicacao_utilizador_fk" FromRole="utilizador" ToRole="medicacao" />
+          <NavigationProperty Name="registos" Relationship="Self.registos_utilizador_fk" FromRole="utilizador" ToRole="registos" />
+        </EntityType>
+        <Association Name="alimentos_utilizador_fk">
+          <End Role="utilizador" Type="Self.utilizador" Multiplicity="1" />
+          <End Role="alimentos" Type="Self.alimentos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilizador">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="alimentos">
+              <PropertyRef Name="utilizador_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="analises_utilizador_fk">
+          <End Role="utilizador" Type="Self.utilizador" Multiplicity="1" />
+          <End Role="analises" Type="Self.analises" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilizador">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="analises">
+              <PropertyRef Name="utilizador_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="atividadefisica_utilizador_fk">
+          <End Role="utilizador" Type="Self.utilizador" Multiplicity="1" />
+          <End Role="atividadefisica" Type="Self.atividadefisica" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilizador">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="atividadefisica">
+              <PropertyRef Name="utilizador_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="clinica_localidade_fk">
+          <End Role="localidade" Type="Self.localidade" Multiplicity="1" />
+          <End Role="clinica" Type="Self.clinica" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="localidade">
+              <PropertyRef Name="localidade_id" />
+            </Principal>
+            <Dependent Role="clinica">
+              <PropertyRef Name="localidade_localidade_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="consulta_medico_fk">
+          <End Role="medico" Type="Self.medico" Multiplicity="1" />
+          <End Role="consulta" Type="Self.consulta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medico">
+              <PropertyRef Name="id" />
+              <PropertyRef Name="Nrutente" />
+            </Principal>
+            <Dependent Role="consulta">
+              <PropertyRef Name="medico_id" />
+              <PropertyRef Name="medico_nrutente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="consulta_utilizador_fk">
+          <End Role="utilizador" Type="Self.utilizador" Multiplicity="1" />
+          <End Role="consulta" Type="Self.consulta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilizador">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="consulta">
+              <PropertyRef Name="utilizador_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="utilizador_localidade_fk">
+          <End Role="localidade" Type="Self.localidade" Multiplicity="1" />
+          <End Role="utilizador" Type="Self.utilizador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="localidade">
+              <PropertyRef Name="localidade_id" />
+            </Principal>
+            <Dependent Role="utilizador">
+              <PropertyRef Name="localidade_localidade_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="medicacao_utilizador_fk">
+          <End Role="utilizador" Type="Self.utilizador" Multiplicity="1" />
+          <End Role="medicacao" Type="Self.medicacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilizador">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="medicacao">
+              <PropertyRef Name="utilizador_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="registos_parametrosimc_fk">
+          <End Role="parametrosimc" Type="Self.parametrosimc" Multiplicity="1" />
+          <End Role="registos" Type="Self.registos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="parametrosimc">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="registos">
+              <PropertyRef Name="parametrosimc_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="respostas_parametrosimc_fk">
+          <End Role="parametrosimc" Type="Self.parametrosimc" Multiplicity="1" />
+          <End Role="respostas" Type="Self.respostas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="parametrosimc">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="respostas">
+              <PropertyRef Name="parametrosimc_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="respostas_perguntas_fk">
+          <End Role="perguntas" Type="Self.perguntas" Multiplicity="1" />
+          <End Role="respostas" Type="Self.respostas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="perguntas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="respostas">
+              <PropertyRef Name="perguntas_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="registos_utilizador_fk">
+          <End Role="utilizador" Type="Self.utilizador" Multiplicity="1" />
+          <End Role="registos" Type="Self.registos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="utilizador">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="registos">
+              <PropertyRef Name="utilizador_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="relation_11">
+          <End Role="clinica" Type="Self.clinica" Multiplicity="*" />
+          <End Role="medico" Type="Self.medico" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="AppSaudeEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="alimentos" EntityType="Self.alimentos" />
+          <EntitySet Name="analises" EntityType="Self.analises" />
+          <EntitySet Name="atividadefisica" EntityType="Self.atividadefisica" />
+          <EntitySet Name="clinica" EntityType="Self.clinica" />
+          <EntitySet Name="consulta" EntityType="Self.consulta" />
+          <EntitySet Name="localidade" EntityType="Self.localidade" />
+          <EntitySet Name="medicacao" EntityType="Self.medicacao" />
+          <EntitySet Name="medico" EntityType="Self.medico" />
+          <EntitySet Name="parametrosimc" EntityType="Self.parametrosimc" />
+          <EntitySet Name="perguntas" EntityType="Self.perguntas" />
+          <EntitySet Name="registos" EntityType="Self.registos" />
+          <EntitySet Name="respostas" EntityType="Self.respostas" />
+          <EntitySet Name="utilizador" EntityType="Self.utilizador" />
+          <AssociationSet Name="alimentos_utilizador_fk" Association="Self.alimentos_utilizador_fk">
+            <End Role="utilizador" EntitySet="utilizador" />
+            <End Role="alimentos" EntitySet="alimentos" />
+          </AssociationSet>
+          <AssociationSet Name="analises_utilizador_fk" Association="Self.analises_utilizador_fk">
+            <End Role="utilizador" EntitySet="utilizador" />
+            <End Role="analises" EntitySet="analises" />
+          </AssociationSet>
+          <AssociationSet Name="atividadefisica_utilizador_fk" Association="Self.atividadefisica_utilizador_fk">
+            <End Role="utilizador" EntitySet="utilizador" />
+            <End Role="atividadefisica" EntitySet="atividadefisica" />
+          </AssociationSet>
+          <AssociationSet Name="clinica_localidade_fk" Association="Self.clinica_localidade_fk">
+            <End Role="localidade" EntitySet="localidade" />
+            <End Role="clinica" EntitySet="clinica" />
+          </AssociationSet>
+          <AssociationSet Name="consulta_medico_fk" Association="Self.consulta_medico_fk">
+            <End Role="medico" EntitySet="medico" />
+            <End Role="consulta" EntitySet="consulta" />
+          </AssociationSet>
+          <AssociationSet Name="consulta_utilizador_fk" Association="Self.consulta_utilizador_fk">
+            <End Role="utilizador" EntitySet="utilizador" />
+            <End Role="consulta" EntitySet="consulta" />
+          </AssociationSet>
+          <AssociationSet Name="utilizador_localidade_fk" Association="Self.utilizador_localidade_fk">
+            <End Role="localidade" EntitySet="localidade" />
+            <End Role="utilizador" EntitySet="utilizador" />
+          </AssociationSet>
+          <AssociationSet Name="medicacao_utilizador_fk" Association="Self.medicacao_utilizador_fk">
+            <End Role="utilizador" EntitySet="utilizador" />
+            <End Role="medicacao" EntitySet="medicacao" />
+          </AssociationSet>
+          <AssociationSet Name="registos_parametrosimc_fk" Association="Self.registos_parametrosimc_fk">
+            <End Role="parametrosimc" EntitySet="parametrosimc" />
+            <End Role="registos" EntitySet="registos" />
+          </AssociationSet>
+          <AssociationSet Name="respostas_parametrosimc_fk" Association="Self.respostas_parametrosimc_fk">
+            <End Role="parametrosimc" EntitySet="parametrosimc" />
+            <End Role="respostas" EntitySet="respostas" />
+          </AssociationSet>
+          <AssociationSet Name="respostas_perguntas_fk" Association="Self.respostas_perguntas_fk">
+            <End Role="perguntas" EntitySet="perguntas" />
+            <End Role="respostas" EntitySet="respostas" />
+          </AssociationSet>
+          <AssociationSet Name="registos_utilizador_fk" Association="Self.registos_utilizador_fk">
+            <End Role="utilizador" EntitySet="utilizador" />
+            <End Role="registos" EntitySet="registos" />
+          </AssociationSet>
+          <AssociationSet Name="relation_11" Association="Self.relation_11">
+            <End Role="clinica" EntitySet="clinica" />
+            <End Role="medico" EntitySet="medico" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AppSaudeModelStoreContainer" CdmEntityContainer="AppSaudeEntities2">
+          <EntitySetMapping Name="alimentos">
+            <EntityTypeMapping TypeName="AppSaudeModel.alimentos">
+              <MappingFragment StoreEntitySet="alimentos">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Calorias" ColumnName="Calorias" />
+                <ScalarProperty Name="Imagem" ColumnName="Imagem" />
+                <ScalarProperty Name="Quantidade" ColumnName="Quantidade" />
+                <ScalarProperty Name="utilizador_id" ColumnName="utilizador_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="analises">
+            <EntityTypeMapping TypeName="AppSaudeModel.analises">
+              <MappingFragment StoreEntitySet="analises">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Glicemia" ColumnName="Glicemia" />
+                <ScalarProperty Name="Ureia" ColumnName="Ureia" />
+                <ScalarProperty Name="Tensao" ColumnName="Tensao" />
+                <ScalarProperty Name="utilizador_id" ColumnName="utilizador_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="atividadefisica">
+            <EntityTypeMapping TypeName="AppSaudeModel.atividadefisica">
+              <MappingFragment StoreEntitySet="atividadefisica">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="CaloriasQueimadas" ColumnName="CaloriasQueimadas" />
+                <ScalarProperty Name="Nrdepassos" ColumnName="Nrdepassos" />
+                <ScalarProperty Name="utilizador_id" ColumnName="utilizador_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="clinica">
+            <EntityTypeMapping TypeName="AppSaudeModel.clinica">
+              <MappingFragment StoreEntitySet="clinica">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="clinica_id" ColumnName="clinica_id" />
+                <ScalarProperty Name="localidade_localidade_id" ColumnName="localidade_localidade_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="consulta">
+            <EntityTypeMapping TypeName="AppSaudeModel.consulta">
+              <MappingFragment StoreEntitySet="consulta">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="medico_id" ColumnName="medico_id" />
+                <ScalarProperty Name="medico_nrutente" ColumnName="medico_nrutente" />
+                <ScalarProperty Name="utilizador_id" ColumnName="utilizador_id" />
+                <ScalarProperty Name="Relatorio" ColumnName="Relatorio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="localidade">
+            <EntityTypeMapping TypeName="AppSaudeModel.localidade">
+              <MappingFragment StoreEntitySet="localidade">
+                <ScalarProperty Name="localidade_id" ColumnName="localidade_id" />
+                <ScalarProperty Name="Cidade" ColumnName="Cidade" />
+                <ScalarProperty Name="Distrito" ColumnName="Distrito" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="medicacao">
+            <EntityTypeMapping TypeName="AppSaudeModel.medicacao">
+              <MappingFragment StoreEntitySet="medicacao">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Datadeinicio" ColumnName="Datadeinicio" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Tempo" ColumnName="Tempo" />
+                <ScalarProperty Name="Duracao" ColumnName="Duracao" />
+                <ScalarProperty Name="Motivo" ColumnName="Motivo" />
+                <ScalarProperty Name="utilizador_id" ColumnName="utilizador_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="medico">
+            <EntityTypeMapping TypeName="AppSaudeModel.medico">
+              <MappingFragment StoreEntitySet="medico">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Nrutente" ColumnName="Nrutente" />
+                <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+                <ScalarProperty Name="Nrdemedico" ColumnName="Nrdemedico" />
+                <ScalarProperty Name="Datadenascimento" ColumnName="Datadenascimento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="parametrosimc">
+            <EntityTypeMapping TypeName="AppSaudeModel.parametrosimc">
+              <MappingFragment StoreEntitySet="parametrosimc">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Valormin" ColumnName="Valormin" />
+                <ScalarProperty Name="Valormax" ColumnName="Valormax" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="perguntas">
+            <EntityTypeMapping TypeName="AppSaudeModel.perguntas">
+              <MappingFragment StoreEntitySet="perguntas">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Pergunta" ColumnName="Pergunta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="registos">
+            <EntityTypeMapping TypeName="AppSaudeModel.registos">
+              <MappingFragment StoreEntitySet="registos">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="Altura" ColumnName="Altura" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="utilizador_id" ColumnName="utilizador_id" />
+                <ScalarProperty Name="parametrosimc_id" ColumnName="parametrosimc_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="respostas">
+            <EntityTypeMapping TypeName="AppSaudeModel.respostas">
+              <MappingFragment StoreEntitySet="respostas">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Resposta" ColumnName="Resposta" />
+                <ScalarProperty Name="perguntas_id" ColumnName="perguntas_id" />
+                <ScalarProperty Name="parametrosimc_id" ColumnName="parametrosimc_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="utilizador">
+            <EntityTypeMapping TypeName="AppSaudeModel.utilizador">
+              <MappingFragment StoreEntitySet="utilizador">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+                <ScalarProperty Name="Nrutente" ColumnName="Nrutente" />
+                <ScalarProperty Name="Datadenascimento" ColumnName="Datadenascimento" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="Altura" ColumnName="Altura" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="localidade_localidade_id" ColumnName="localidade_localidade_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="relation_11" TypeName="AppSaudeModel.relation_11" StoreEntitySet="relation_11">
+            <EndProperty Name="clinica">
+              <ScalarProperty Name="clinica_id" ColumnName="clinica_clinica_id" />
+            </EndProperty>
+            <EndProperty Name="medico">
+              <ScalarProperty Name="id" ColumnName="médico_id" />
+              <ScalarProperty Name="Nrutente" ColumnName="médico_nrutente" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
