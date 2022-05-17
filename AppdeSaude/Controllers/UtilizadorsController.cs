@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -17,6 +18,7 @@ namespace AppdeSaude.Controllers
         // GET: Utilizadors
         public ActionResult Index()
         {
+        
             var utilizador = db.utilizador.Include(u => u.localidade);
             return View(utilizador.ToList());
         }
@@ -38,7 +40,7 @@ namespace AppdeSaude.Controllers
 
         // GET: Utilizadors/Create
         public ActionResult Create()
-        {
+        {            
             ViewBag.localidade_localidade_id = new SelectList(db.localidade, "localidade_id", "Cidade");
             return View();
         }
@@ -50,8 +52,17 @@ namespace AppdeSaude.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,Nome,Contacto,Nrutente,Datadenascimento,Genero,Altura,Peso,Email,Password,CreatedAt,localidade_localidade_id")] utilizador utilizador)
         {
+
+            string sql = "SELECT top 1 id FROM utilizador order by id desc";
+            SqlConnection conn = new SqlConnection("Data Source=DESKTOP-0JHBC91\\SQLEXPRESS;Initial Catalog=AppSaude;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
+            conn.Open();
+
+            SqlCommand command = new SqlCommand(sql, conn);
+            int lastid = (int)command.ExecuteScalar();
+         
             if (ModelState.IsValid)
             {
+                utilizador.id = lastid + 1;
                 utilizador.CreatedAt = DateTime.Now;
                 db.utilizador.Add(utilizador);
                 db.SaveChanges();
